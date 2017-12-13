@@ -2,6 +2,8 @@
 
 import sys
 from expert import *
+from valid import valid_syntax
+
 
 def list_to_string(stuff):
     if len(stuff) == 1:
@@ -18,7 +20,12 @@ def main():
         exit(1)
     try:
         with open(sys.argv[1], "r") as file:
-            facts = FactCollection.from_file(file)
+            if valid_syntax(file):
+                print("valid file")
+                exit()
+                facts = FactCollection.from_file(file)
+            else:
+                exit()
         for q in facts.queries:
             facts.facts[q].status = facts.truth_check(q)
             print(q,"is", facts.facts[q].status)
