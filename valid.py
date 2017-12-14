@@ -1,13 +1,31 @@
 import re
 
 
+def check_brackets(rule):
+    open_count = 0
+    closed_count = 0
+    for e in rule:
+        if e == '(':
+            open_count += 1
+        elif e == ')':
+            closed_count += 1
+            if closed_count > open_count:
+                print("invalid use of brackets in line: ", rule)
+                return False
+
+    if open_count == closed_count:
+        return True
+    print("invalid use of brackets in line: ", rule)
+    return False
+
+
 def is_valid_rule(line):
 
     pattern = r'[^A-Z" "/+/|/^/!/=/</>/(/)]'
     if re.search(pattern, line):
         print("Invalid characters in line: ", line)
         return False
-
+    tmp = ''
     if "=>" in line:
         tmp = line.split("=>")
     elif "<=>" in line:
@@ -15,12 +33,18 @@ def is_valid_rule(line):
     if len(tmp) != 2:
         print("Invalid syntax in line ", line)
         return False
+    for e in tmp:
+        if '(' or ')' in e:
+            if not check_brackets(e):
+                return False
 
     spl = line.split(' ')
     operators = ['+', '|', '^', "=>", "<=>"]
     op_found = False
     fact_found = False
     for e in spl:
+        e = e.replace('(', '')
+        e = e.replace(')', '')
         if e in operators and op_found:
             print("Syntax error in line ", line, " double operator found ", e)
             return False
@@ -89,7 +113,7 @@ def valid_syntax(fd):
                 if not facts:
                     facts = True
                 else:
-                    print("Invalid line: ", line, " Facts all ready found")
+                    print("Invalid line: ", line, " Facts already found")
                     errors += 1
             else:
                 errors += 1
