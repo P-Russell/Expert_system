@@ -1,0 +1,2 @@
+Handle syntax errors in input file. Unknown operators cause program to crash
+cmd line parameters validation

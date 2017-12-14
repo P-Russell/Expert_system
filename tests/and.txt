@@ -1,0 +1,10 @@
+#some comment
+#some comment
+#some comment
+
+A + B => C      #some comment
+E => A + A D
+
+=BE #some comment
+#some comment
+?C
