@@ -105,7 +105,7 @@ def valid_syntax(fd):
 
         elif "=>" in line or "<=>" in line:
             if "<=>" in line:
-                print("Program does not yet support if and only if rules")
+                print("Program does not yet support if and only if rules", line)
                 errors += 1
             rules = True
             if not is_valid_rule(line):

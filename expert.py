@@ -39,6 +39,7 @@ class Rule:
 
         # do shunting yard here
         string = shunt_yard(string)
+        print(string)
         stack = []
         for token in string.split(): # replace with intelligent tokenisation
             if token in algebra.operators:

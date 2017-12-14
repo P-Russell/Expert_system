@@ -14,6 +14,7 @@ def list_to_string(stuff):
         fmt = "{}, " * (len(stuff) - 1) + "and {}"
     return fmt.format(*stuff)
 
+
 def main():
     if len(sys.argv) == 1:
         print("Gimme file, I need file")
@@ -21,16 +22,15 @@ def main():
     try:
         with open(sys.argv[1], "r") as file:
             if valid_syntax(file):
-                print("valid file")
-                exit()
                 facts = FactCollection.from_file(file)
             else:
                 exit()
         for q in facts.queries:
             facts.facts[q].status = facts.truth_check(q)
-            print(q,"is", facts.facts[q].status)
+            print(q, "is", facts.facts[q].status)
     except OSError:
         print("Gimme valid file, I need file")
+
 
 if __name__ == "__main__":
     main()
