@@ -17,16 +17,32 @@ def is_valid_rule(line):
         return False
 
     spl = line.split(' ')
+    operators = ['+', '|', '^', "=>", "<=>"]
+    op_found = False
+    fact_found = False
     for e in spl:
+        if e in operators and op_found:
+            print("Syntax error in line ", line, " double operator found ", e)
+            return False
+        elif e in operators and not op_found:
+            op_found = True
+            fact_found = False
+
+        if e not in operators and fact_found:
+            print("Syntax error in line ", line, " double fact found ", e)
+            return False
+        elif e not in operators and not fact_found:
+            fact_found = True
+            op_found = False
+
         length = len(e)
         if length == 2:
-            if e != "=>":
+            if e == "=>" or (e[0] == '!' and e[1].isupper()) or \
+                    (e[0] == '(' and e[1].isupper()) or (e[1] == ')' and e[0].isupper()):
+                pass
+            else:
                 print("Syntax error in line ", line, " found unexpected characters ", e)
                 return False
-            elif e[0] != '!' and not e[1].isupper:
-                print("Syntax error in line ", line, " found unexpected characters ", e)
-                return False
-
         if length > 2:
             if e != "<=>":
                 print("Syntax error in line ", line, " found unexpected characters ", e)
@@ -64,9 +80,8 @@ def valid_syntax(fd):
             pass
 
         elif "=>" in line or "<=>" in line:
-            if is_valid_rule(line):
-                rules = True
-            else:
+            rules = True
+            if not is_valid_rule(line):
                 errors += 1
 
         elif line[0] == '=':
