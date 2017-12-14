@@ -30,17 +30,14 @@ def in_to_postfix(line):
     for sides in line:
         for e in sides:
             if e != ' ':
-                # 	if the token is a number, then push it to the output queue.
                 if e[0].isupper():
                     postfix += e + ' '
-                # if the token is an operator, then:
-                # while (there is an operator at the top of the operator stack with
-                # 			greater precedence) or (the operator at the top of the operator stack has
-                #                         equal precedence and
-                #                         the operator is left associative) and
-                #                       (the operator at the top of the stack is not a left bracket):
                 elif e in operators:
-                    while
+                    while operators.index(op_stack[-1]) < operators.index(e):
+                        postfix += op_stack.pop() + ' '
+                    op_stack.append(e)
+                elif e == '(':
+
 
 
 
